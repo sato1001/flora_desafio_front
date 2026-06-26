@@ -1,9 +1,6 @@
 export interface AuthResponse {
-  user: {
-    id: string;
-    name: string;
-    email: string;
-  };
+  id: string;
+  name: string;
   token: string;
 }
 
@@ -26,12 +23,12 @@ export type EntryListResponse = PaginatedResponse<string>;
 
 export interface HistoryItem {
   word: string;
-  accessedAt: string;
+  added: string;
 }
 
 export interface FavoriteItem {
   word: string;
-  addedAt: string;
+  added: string;
 }
 
 export interface Phonetic {

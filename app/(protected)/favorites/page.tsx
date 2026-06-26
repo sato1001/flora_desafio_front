@@ -98,7 +98,7 @@ export default function FavoritesPage() {
                     </ListItemIcon>
                     <ListItemText
                       primary={item.word}
-                      secondary={`Adicionado em ${new Date(item.addedAt).toLocaleDateString('pt-BR')}`}
+                      secondary={`Adicionado em ${new Date(item.added).toLocaleDateString('pt-BR')}`}
                       primaryTypographyProps={{
                         variant: 'body1',
                         fontWeight: 600,

@@ -71,7 +71,7 @@ export default function HistoryPage() {
                     </ListItemIcon>
                     <ListItemText
                       primary={item.word}
-                      secondary={`Acessado em ${new Date(item.accessedAt).toLocaleString('pt-BR')}`}
+                      secondary={`Acessado em ${new Date(item.added).toLocaleString('pt-BR')}`}
                       primaryTypographyProps={{
                         variant: 'body1',
                         fontWeight: 600,
