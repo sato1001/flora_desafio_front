@@ -14,10 +14,13 @@ import Tooltip from '@mui/material/Tooltip';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import LogoutIcon from '@mui/icons-material/Logout';
 import PersonIcon from '@mui/icons-material/Person';
+import LightModeIcon from '@mui/icons-material/LightMode';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
 import { useQuery } from '@tanstack/react-query';
 import { getMe } from '@/lib/api/user';
 import { clearSession } from '@/lib/auth/session';
 import { useRouter, usePathname } from 'next/navigation';
+import { useColorMode } from '@/app/providers';
 import Link from 'next/link';
 
 interface HeaderBarProps {
@@ -29,6 +32,7 @@ export default function HeaderBar({ onToggleDrawer, drawerWidth }: HeaderBarProp
   const router = useRouter();
   const pathname = usePathname();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const { mode, toggleColorMode } = useColorMode();
 
   // Fetch current user
   const { data: user } = useQuery({
@@ -73,6 +77,11 @@ export default function HeaderBar({ onToggleDrawer, drawerWidth }: HeaderBarProp
       sx={{
         width: { md: `calc(100% - ${drawerWidth}px)` },
         ml: { md: `${drawerWidth}px` },
+        transition: (theme) =>
+          theme.transitions.create(['width', 'margin'], {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.enteringScreen,
+          }),
       }}
     >
       <Toolbar sx={{ justifyContent: 'space-between', px: { xs: 2, sm: 3 } }}>
@@ -92,6 +101,12 @@ export default function HeaderBar({ onToggleDrawer, drawerWidth }: HeaderBarProp
         </Box>
 
         <Box display="flex" alignItems="center" gap={2}>
+          <Tooltip title={mode === 'dark' ? 'Ativar tema claro' : 'Ativar tema escuro'}>
+            <IconButton onClick={toggleColorMode} color="inherit">
+              {mode === 'dark' ? <LightModeIcon /> : <DarkModeIcon />}
+            </IconButton>
+          </Tooltip>
+
           {user && (
             <Box display={{ xs: 'none', sm: 'block' }} textAlign="right">
               <Typography variant="body2" fontWeight="bold">
