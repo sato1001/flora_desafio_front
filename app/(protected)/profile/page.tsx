@@ -116,24 +116,6 @@ export default function ProfilePage() {
               </Box>
             </Stack>
 
-            <Button
-              variant="outlined"
-              color="error"
-              fullWidth
-              startIcon={<LogoutIcon />}
-              onClick={handleLogout}
-              sx={{
-                py: 1.5,
-                borderRadius: 3,
-                borderColor: 'rgba(239, 68, 68, 0.3)',
-                '&:hover': {
-                  bgcolor: 'rgba(239, 68, 68, 0.05)',
-                  borderColor: 'error.main',
-                },
-              }}
-            >
-              Sair da Conta
-            </Button>
           </Stack>
         </CardContent>
       </Card>
