@@ -27,7 +27,8 @@ export async function listEntries(params: ListEntriesParams = {}): Promise<Entry
 
 export async function getEntry(word: string, options: RequestInit = {}): Promise<WordDetail> {
   // Use encodeURIComponent to handle words with special characters safely
-  return apiFetch<WordDetail>(`/entries/en/${encodeURIComponent(word)}`, options);
+  const data = await apiFetch<WordDetail | WordDetail[]>(`/entries/en/${encodeURIComponent(word)}`, options);
+  return Array.isArray(data) ? data[0] : data;
 }
 
 export async function favoriteWord(word: string): Promise<void> {

@@ -17,12 +17,9 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import BookIcon from '@mui/icons-material/Book';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import HistoryIcon from '@mui/icons-material/History';
-import PersonIcon from '@mui/icons-material/Person';
-import LogoutIcon from '@mui/icons-material/Logout';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import { clearSession } from '@/lib/auth/session';
-import { useRouter } from 'next/navigation';
+
 
 interface SidebarNavProps {
   onCloseMobileDrawer?: () => void;
@@ -36,21 +33,15 @@ export default function SidebarNav({
   onToggleCollapse,
 }: SidebarNavProps) {
   const pathname = usePathname();
-  const router = useRouter();
+
 
   const menuItems = [
     { text: 'Dashboard', icon: <DashboardIcon />, href: '/dashboard' },
     { text: 'Dicionário', icon: <BookIcon />, href: '/dictionary' },
     { text: 'Favoritos', icon: <FavoriteIcon />, href: '/favorites' },
     { text: 'Histórico', icon: <HistoryIcon />, href: '/history' },
-    { text: 'Perfil', icon: <PersonIcon />, href: '/profile' },
   ];
 
-  const handleLogout = () => {
-    clearSession();
-    router.push('/login');
-    router.refresh();
-  };
 
   return (
     <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column', bgcolor: 'background.default' }}>
@@ -170,49 +161,6 @@ export default function SidebarNav({
         </List>
       </Box>
 
-      <Divider />
-
-      {/* Footer / Logout */}
-      <Box sx={{ p: collapsed ? 1 : 2 }}>
-        {collapsed ? (
-          <Tooltip title="Sair" placement="right" arrow>
-            <ListItemButton
-              onClick={handleLogout}
-              sx={{
-                color: 'error.main',
-                justifyContent: 'center',
-                px: 1.5,
-                '& .MuiListItemIcon-root': { color: 'error.main' },
-                '&:hover': { bgcolor: 'rgba(239, 68, 68, 0.08)' },
-              }}
-            >
-              <ListItemIcon sx={{ minWidth: 0, justifyContent: 'center' }}>
-                <LogoutIcon />
-              </ListItemIcon>
-            </ListItemButton>
-          </Tooltip>
-        ) : (
-          <ListItemButton
-            onClick={handleLogout}
-            sx={{
-              color: 'error.main',
-              '& .MuiListItemIcon-root': { color: 'error.main' },
-              '&:hover': { bgcolor: 'rgba(239, 68, 68, 0.08)' },
-            }}
-          >
-            <ListItemIcon sx={{ minWidth: 40 }}>
-              <LogoutIcon />
-            </ListItemIcon>
-            <ListItemText
-              primary="Sair"
-              primaryTypographyProps={{
-                fontSize: '0.875rem',
-                fontWeight: 600,
-              }}
-            />
-          </ListItemButton>
-        )}
-      </Box>
     </Box>
   );
 }
