@@ -3,34 +3,22 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { getMe } from '@/lib/api/user';
-import { clearSession } from '@/lib/auth/session';
-import { useRouter } from 'next/navigation';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
-import LogoutIcon from '@mui/icons-material/Logout';
 import PersonIcon from '@mui/icons-material/Person';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import LoadingSpinner from '@/components/common/loading-spinner';
 import ErrorAlert from '@/components/common/error-alert';
 
 export default function ProfilePage() {
-  const router = useRouter();
-
   const { data: user, isLoading, error } = useQuery({
     queryKey: ['me'],
     queryFn: getMe,
   });
-
-  const handleLogout = () => {
-    clearSession();
-    router.push('/login');
-    router.refresh();
-  };
 
   if (isLoading) {
     return <LoadingSpinner message="Carregando dados do perfil..." minHeight="300px" />;

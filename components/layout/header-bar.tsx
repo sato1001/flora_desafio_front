@@ -21,7 +21,6 @@ import { getMe } from '@/lib/api/user';
 import { clearSession } from '@/lib/auth/session';
 import { useRouter, usePathname } from 'next/navigation';
 import { useColorMode } from '@/app/providers';
-import Link from 'next/link';
 
 interface HeaderBarProps {
   onToggleDrawer: () => void;
