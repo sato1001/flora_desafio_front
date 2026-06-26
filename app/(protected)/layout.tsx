@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import Toolbar from '@mui/material/Toolbar';
@@ -15,6 +15,20 @@ export default function ProtectedLayout({
   children: React.ReactNode;
 }) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
+
+  useEffect(() => {
+    const saved = localStorage.getItem('sidebar-collapsed') === 'true';
+    setCollapsed(saved);
+  }, []);
+
+  const handleToggleCollapse = () => {
+    setCollapsed((prev) => {
+      const next = !prev;
+      localStorage.setItem('sidebar-collapsed', String(next));
+      return next;
+    });
+  };
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -24,15 +38,25 @@ export default function ProtectedLayout({
     setMobileOpen(false);
   };
 
+  const currentDrawerWidth = collapsed ? 80 : DRAWER_WIDTH;
+
   return (
     <Box sx={{ display: 'flex', minHeight: '100vh', bgcolor: 'background.default' }}>
       {/* Navigation Header */}
-      <HeaderBar onToggleDrawer={handleDrawerToggle} drawerWidth={DRAWER_WIDTH} />
+      <HeaderBar onToggleDrawer={handleDrawerToggle} drawerWidth={currentDrawerWidth} />
 
       {/* Responsive Drawers */}
       <Box
         component="nav"
-        sx={{ width: { md: DRAWER_WIDTH }, flexShrink: { md: 0 } }}
+        sx={{
+          width: { md: currentDrawerWidth },
+          flexShrink: { md: 0 },
+          transition: (theme) =>
+            theme.transitions.create('width', {
+              easing: theme.transitions.easing.sharp,
+              duration: theme.transitions.duration.enteringScreen,
+            }),
+        }}
         aria-label="opções de navegação"
       >
         {/* Mobile Drawer */}
@@ -48,7 +72,8 @@ export default function ProtectedLayout({
             '& .MuiDrawer-paper': {
               boxSizing: 'border-box',
               width: DRAWER_WIDTH,
-              borderRight: '1px solid rgba(255, 255, 255, 0.08)',
+              borderRight: '1px solid',
+              borderColor: 'divider',
             },
           }}
         >
@@ -62,13 +87,20 @@ export default function ProtectedLayout({
             display: { xs: 'none', md: 'block' },
             '& .MuiDrawer-paper': {
               boxSizing: 'border-box',
-              width: DRAWER_WIDTH,
-              borderRight: '1px solid rgba(255, 255, 255, 0.08)',
+              width: currentDrawerWidth,
+              borderRight: '1px solid',
+              borderColor: 'divider',
+              overflowX: 'hidden',
+              transition: (theme) =>
+                theme.transitions.create('width', {
+                  easing: theme.transitions.easing.sharp,
+                  duration: theme.transitions.duration.enteringScreen,
+                }),
             },
           }}
           open
         >
-          <SidebarNav />
+          <SidebarNav collapsed={collapsed} onToggleCollapse={handleToggleCollapse} />
         </Drawer>
       </Box>
 
@@ -78,10 +110,15 @@ export default function ProtectedLayout({
         sx={{
           flexGrow: 1,
           p: { xs: 3, md: 5 },
-          width: { md: `calc(100% - ${DRAWER_WIDTH}px)` },
+          width: { md: `calc(100% - ${currentDrawerWidth}px)` },
           minHeight: '100vh',
           display: 'flex',
           flexDirection: 'column',
+          transition: (theme) =>
+            theme.transitions.create(['width', 'margin'], {
+              easing: theme.transitions.easing.sharp,
+              duration: theme.transitions.duration.enteringScreen,
+            }),
         }}
       >
         <Toolbar /> {/* Offsets the fixed AppBar */}
