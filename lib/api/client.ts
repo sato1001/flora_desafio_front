@@ -1,6 +1,6 @@
 import { getSessionToken } from '@/lib/auth/session';
 
-const BASE_URL = process.env.NEXT_API_URL || 'http://localhost:3000';
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || '';
 
 export async function apiFetch<T>(
   endpoint: string,
