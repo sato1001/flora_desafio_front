@@ -9,13 +9,11 @@ import Card from '@mui/material/Card';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
 import Divider from '@mui/material/Divider';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
@@ -64,17 +62,8 @@ export default function DetailCard({ word, detail }: DetailCardProps) {
     }
   };
 
-  // Find phonetic text & audio
-  const phoneticWithAudio = detail.phonetics?.find((p) => p.audio);
-  const audioUrl = phoneticWithAudio?.audio;
+  // Find phonetic text
   const phoneticText = detail.phonetic || detail.phonetics?.find((p) => p.text)?.text;
-
-  const playAudio = () => {
-    if (audioUrl) {
-      const audio = new Audio(audioUrl);
-      audio.play().catch((err) => console.error('Erro ao reproduzir áudio:', err));
-    }
-  };
 
   const isMutating = favoriteMut.isPending || unfavoriteMut.isPending;
 
@@ -123,21 +112,6 @@ export default function DetailCard({ word, detail }: DetailCardProps) {
               >
                 {detail.word}
               </Typography>
-              {audioUrl && (
-                <IconButton
-                  onClick={playAudio}
-                  sx={{
-                    bgcolor: 'rgba(139, 92, 246, 0.1)',
-                    color: 'primary.main',
-                    '&:hover': {
-                      bgcolor: 'rgba(139, 92, 246, 0.2)',
-                    },
-                  }}
-                  title="Ouvir pronúncia"
-                >
-                  <VolumeUpIcon />
-                </IconButton>
-              )}
             </Box>
 
             {phoneticText && (
