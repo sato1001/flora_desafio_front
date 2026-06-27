@@ -50,9 +50,10 @@ export default function SidebarNav({
         sx={{
           p: collapsed ? 2 : 3,
           display: 'flex',
+          flexDirection: collapsed ? 'column' : 'row',
           alignItems: 'center',
           justifyContent: collapsed ? 'center' : 'space-between',
-          gap: collapsed ? 0 : 2,
+          gap: collapsed ? 1.5 : 2,
         }}
       >
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
@@ -65,7 +66,7 @@ export default function SidebarNav({
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              boxShadow: '0 4px 14px 0 rgba(139, 92, 246, 0.2)',
+              boxShadow: '0 4px 14px 0 rgba(139, 92, 246, 0.25)',
               flexShrink: 0,
             }}
           >
@@ -100,7 +101,7 @@ export default function SidebarNav({
           </IconButton>
         )}
         {onToggleCollapse && collapsed && (
-          <IconButton onClick={onToggleCollapse} sx={{ display: { xs: 'none', md: 'inline-flex' }, mt: 1 }}>
+          <IconButton onClick={onToggleCollapse} sx={{ display: { xs: 'none', md: 'inline-flex' } }}>
             <ChevronRightIcon />
           </IconButton>
         )}
